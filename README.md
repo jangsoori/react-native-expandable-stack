@@ -43,19 +43,19 @@ const Component = () => {
 };
 ```
 
-### Custom Linear config
+### Custom Timing config
 
 ```js
 import { Stack } from 'react-native-expandable-stack';
 
-const linearConfig = {
+const timingConfig = {
   duration: 600
 }
 
 const Component = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  return <Stack expanded={isExpanded} animation={{type: 'linear', config: linearConfig}}>{/* Your items here */}</Stack>;
+  return <Stack expanded={isExpanded} animation={{type: 'timing', config: linearConfig}}>{/* Your items here */}</Stack>;
 };
 ```
 
@@ -68,7 +68,7 @@ const Component = () => {
 | expanded  | `boolean`                                                                                  | Yes      | `false`                                     | Determines if the stack should be expanded or collapsed.                                                                                                                                                                                                                                                  |
 | gap       | `number`                                                                                   | No       | `10`                                        | Determines the gap between items in expanded state.                                                                                                                                                                                                                                                       |
 | offset    | `number`                                                                                   | No       | `-20`                                       | Determines the overlap of the items in collapsed state. Usually you will want a negative number.                                                                                                                                                                                                                                                |
-| animation | `{type: 'linear', config: withTimingConfig}`,<br />`{type: 'spring', config: withSpringConfig}` | No       | `{type: 'linear', config: {duration: 300}}` | Determines the animation to run. `config` is optional and takes in `react-native-reanimated` options, depending on the `type`:<br/>`type: 'linear'`: [withTiming options](https://docs.swmansion.com/react-native-reanimated/docs/api/animations/withTiming/#options-object) <br />`type: 'spring'`: [withSpring options](https://docs.swmansion.com/react-native-reanimated/docs/api/animations/withSpring#options-object) |
+| animation | `{type: 'timing', config: WithTimingConfig}`,<br />`{type: 'spring', config: WithSpringConfig}` | No       | `{type: 'timing', config: {duration: 300}}` | Determines the animation to run. `config` is optional and takes in `react-native-reanimated` options, depending on the `type`:<br/>`type: 'timing'`: [withTiming options](https://docs.swmansion.com/react-native-reanimated/docs/api/animations/withTiming/#options-object) <br />`type: 'spring'`: [withSpring options](https://docs.swmansion.com/react-native-reanimated/docs/api/animations/withSpring#options-object) |
 
 ## Contributing
 
