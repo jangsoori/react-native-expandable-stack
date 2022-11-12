@@ -3,19 +3,21 @@ import type {
   WithTimingConfig,
 } from 'react-native-reanimated';
 
-interface LinearAnimation {
-  type: 'linear';
-  config?: WithTimingConfig;
+interface TimingAnimation {
+  type: 'timing';
+  options?: WithTimingConfig;
 }
 
 interface SpringAnimation {
   type: 'spring';
-  config?: WithSpringConfig;
+  options?: WithSpringConfig;
 }
 
 export interface StackProps {
-  gap: number;
-  offset: number;
   expanded: boolean;
-  animation?: SpringAnimation | LinearAnimation;
+  gap?: number;
+  offset?: number;
+  animation?: SpringAnimation | TimingAnimation;
+  onExpandStart?: () => void;
+  onExpandEnd?: () => void;
 }

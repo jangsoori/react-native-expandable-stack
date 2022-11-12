@@ -1,22 +1,27 @@
 import React from 'react';
-import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 import type { StackItemProps } from './StackItem.types';
 
 export const StackItem: React.FC<StackItemProps> = ({
   children,
   index,
-  expanded,
   gap,
   offset,
-  animateExpansion,
+  progress,
 }) => {
   const rStyle = useAnimatedStyle(() => {
     return {
       transform: [
         {
-          translateY: expanded
-            ? animateExpansion(gap * index)
-            : animateExpansion(offset * index),
+          translateY: interpolate(
+            progress.value,
+            [0, 1],
+            [offset * index, gap * index]
+          ),
         },
       ],
     };

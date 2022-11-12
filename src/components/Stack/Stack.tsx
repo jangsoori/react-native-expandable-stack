@@ -1,6 +1,10 @@
-import React, { Children, useCallback } from 'react';
+import React, { Children, useCallback, useMemo } from 'react';
 import Animated, {
+  interpolate,
+  runOnJS,
+  useAnimatedReaction,
   useAnimatedStyle,
+  useSharedValue,
   withSpring,
   WithSpringConfig,
   withTiming,
@@ -9,12 +13,12 @@ import Animated, {
 import { StackItem } from '../StackItem';
 import type { StackProps } from './Stack.types';
 
-const defaultSpringConfig: WithSpringConfig = {
-  damping: 8,
-  mass: 0.5,
+const defaultSpringOptions: WithSpringConfig = {
+  damping: 5,
+  mass: 0.2,
 };
 
-const defaultLinearConfig: WithTimingConfig = {
+const defaultTimingOptions: WithTimingConfig = {
   duration: 300,
 };
 
@@ -24,37 +28,56 @@ export const Stack: React.FC<StackProps> = ({
   offset = -20,
   expanded,
   animation = {
-    type: 'linear',
-    config: defaultLinearConfig,
+    type: 'spring',
+    options: defaultSpringOptions,
   },
+  onExpandStart,
+  onExpandEnd,
 }) => {
-  const animateExpansion = useCallback(
-    (targetValue: number) => {
-      'worklet';
+  const progress = useSharedValue(0);
 
-      if (animation.type === 'spring') {
-        return withSpring(targetValue, animation.config || defaultSpringConfig);
+  const animationOptions = useMemo(() => {
+    if (animation.type === 'timing') {
+      return animation.options || defaultTimingOptions;
+    }
+    return animation.options;
+  }, [animation.options, animation.type]);
+
+  const animationFunction = useMemo(() => {
+    if (animation.type === 'timing') {
+      return withTiming;
+    }
+    return withSpring;
+  }, [animation.type]);
+
+  useAnimatedReaction(
+    () => expanded,
+    (isExpanded) => {
+      if (isExpanded) {
+        if (onExpandStart) {
+          runOnJS(onExpandStart)();
+        }
+        progress.value = animationFunction(1, animationOptions, () => {
+          if (onExpandEnd) {
+            runOnJS(onExpandEnd)();
+          }
+        });
+      } else {
+        progress.value = animationFunction(0, animationOptions);
       }
-
-      return withTiming(targetValue, animation.config || defaultLinearConfig);
     },
-    [animation.config, animation.type]
+    [expanded]
   );
-
-  if (!gap) {
-    throw new Error('You need to provide a "gap" property!');
-  }
-
-  if (!offset) {
-    throw new Error('You need to provide an "offset" property!');
-  }
 
   const childrenCount = Children.count(children);
 
   const rStyle = useAnimatedStyle(() => {
+    console.log(progress.value);
     return {
-      marginBottom: animateExpansion(
-        expanded ? gap * (childrenCount - 1) : offset * (childrenCount - 1)
+      marginBottom: interpolate(
+        progress.value,
+        [0, 1],
+        [offset * (childrenCount - 1), gap * (childrenCount - 1)]
       ),
     };
   });
@@ -64,11 +87,10 @@ export const Stack: React.FC<StackProps> = ({
       {Children.map(children, (child, index) => {
         return (
           <StackItem
+            progress={progress}
             index={index}
-            expanded={expanded}
             gap={gap}
             offset={offset}
-            animateExpansion={animateExpansion}
           >
             {child}
           </StackItem>

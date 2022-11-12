@@ -20,7 +20,7 @@ const Item: React.FC<{ color: string }> = ({ color }) => {
 };
 
 export default function App() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -29,14 +29,20 @@ export default function App() {
       </View>
       <Pressable
         onPress={() => {
-          setIsOpen((prevState) => !prevState);
+          setIsExpanded((prevState) => !prevState);
         }}
       >
         <Stack
-          animation={{ type: 'spring' }}
-          gap={20}
-          offset={-80}
-          expanded={isOpen}
+          // animation={{ type: 'spring', options: { mass: 0.6 } }}
+          gap={10}
+          offset={-100}
+          expanded={isExpanded}
+          onExpandStart={() => {
+            console.warn('expand start');
+          }}
+          onExpandEnd={() => {
+            console.warn('expand end');
+          }}
         >
           <Item color="brown" />
           <Item color="purple" />
@@ -48,7 +54,7 @@ export default function App() {
       </View>
       <Pressable
         onPress={() => {
-          setIsOpen((prev) => !prev);
+          setIsExpanded((prev) => !prev);
         }}
         style={{
           backgroundColor: 'purple',
@@ -58,7 +64,7 @@ export default function App() {
         }}
       >
         <Text style={{ color: 'white', fontSize: 24 }}>
-          {isOpen ? 'Open' : 'Close'}
+          {isExpanded ? 'Open' : 'Close'}
         </Text>
       </Pressable>
     </View>

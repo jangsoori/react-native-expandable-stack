@@ -1,7 +1,8 @@
-import type { StackProps } from '../Stack/Stack.types';
+import type Animated from 'react-native-reanimated';
 
-export interface StackItemProps
-  extends Required<Omit<StackProps, 'animation'>> {
+export interface StackItemProps {
+  gap: number;
+  offset: number;
   index: number;
-  animateExpansion: (x: number) => number;
+  progress: Animated.SharedValue<number>;
 }
