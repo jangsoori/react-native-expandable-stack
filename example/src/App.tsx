@@ -12,6 +12,9 @@ const Item: React.FC<{ color: string }> = ({ color }) => {
         height: 100,
         backgroundColor: color,
         borderRadius: 20,
+        shadowColor: 'black',
+        shadowRadius: 20,
+        shadowOpacity: 0.7,
       }}
     />
   );
@@ -32,9 +35,9 @@ export default function App() {
         }}
       >
         <Stack
-          animation={{ type: 'timing', options: { duration: 250 } }}
+          // animation={{ type: 'timing', options: { duration: 250 } }}
           gap={10}
-          offset={-100}
+          offset={-70}
           expanded={isExpanded}
           onExpandStart={() => { }}
           onExpandEnd={() => { }}
@@ -48,9 +51,6 @@ export default function App() {
           <Item color="#702963" />
         </View>
       </Pressable>
-      <View>
-        <Text style={{ color: 'white' }}>Below Stack</Text>
-      </View>
       <Pressable
         onPress={() => {
           setIsExpanded((prev) => !prev);
