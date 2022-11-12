@@ -1,19 +1,17 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-import { StyleSheet, View, Text, Dimensions, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
 import { Stack } from 'react-native-expandable-stack';
-
-const { width } = Dimensions.get('window');
 
 const Item: React.FC<{ color: string }> = ({ color }) => {
   return (
     <View
       style={{
-        width,
+        width: '100%',
         height: 100,
         backgroundColor: color,
-        borderRadius: 100,
+        borderRadius: 20,
       }}
     />
   );
@@ -25,7 +23,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={{ color: 'white' }}>Above Stack</Text>
+        <Item color="#AA336A" />
+        <View style={{ height: 10 }} />
       </View>
       <Pressable
         onPress={() => {
@@ -33,21 +32,21 @@ export default function App() {
         }}
       >
         <Stack
-          // animation={{ type: 'spring', options: { mass: 0.6 } }}
+          animation={{ type: 'timing', options: { duration: 250 } }}
           gap={10}
           offset={-100}
           expanded={isExpanded}
-          onExpandStart={() => {
-            console.warn('expand start');
-          }}
-          onExpandEnd={() => {
-            console.warn('expand end');
-          }}
+          onExpandStart={() => { }}
+          onExpandEnd={() => { }}
         >
-          <Item color="brown" />
-          <Item color="purple" />
-          <Item color="cyan" />
+          <Item color="#9F2B68" />
+          <Item color="#BF40BF" />
+          <Item color="#800020" />
         </Stack>
+        <View>
+          <View style={{ height: 10 }} />
+          <Item color="#702963" />
+        </View>
       </Pressable>
       <View>
         <Text style={{ color: 'white' }}>Below Stack</Text>
@@ -57,14 +56,22 @@ export default function App() {
           setIsExpanded((prev) => !prev);
         }}
         style={{
-          backgroundColor: 'purple',
-          paddingHorizontal: 20,
-          paddingVertical: 10,
-          borderRadius: 50,
+          backgroundColor: '#301934',
+          borderRadius: 10,
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 50,
+          marginTop: 'auto',
         }}
       >
-        <Text style={{ color: 'white', fontSize: 24 }}>
-          {isExpanded ? 'Open' : 'Close'}
+        <Text
+          style={{
+            color: 'white',
+            textAlign: 'center',
+            fontSize: 24,
+          }}
+        >
+          {isExpanded ? 'Close' : 'Open'}
         </Text>
       </Pressable>
     </View>
@@ -74,13 +81,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    paddingHorizontal: 30,
     paddingTop: 120,
-    backgroundColor: 'black',
-  },
-  item: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
+    paddingBottom: 30,
   },
 });

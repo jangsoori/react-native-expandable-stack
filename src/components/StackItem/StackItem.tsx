@@ -1,6 +1,5 @@
 import React from 'react';
 import Animated, {
-  Extrapolate,
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';

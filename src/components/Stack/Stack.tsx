@@ -1,4 +1,4 @@
-import React, { Children, useCallback, useMemo } from 'react';
+import React, { Children, useMemo } from 'react';
 import Animated, {
   interpolate,
   runOnJS,
@@ -72,7 +72,6 @@ export const Stack: React.FC<StackProps> = ({
   const childrenCount = Children.count(children);
 
   const rStyle = useAnimatedStyle(() => {
-    console.log(progress.value);
     return {
       marginBottom: interpolate(
         progress.value,
