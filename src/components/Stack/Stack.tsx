@@ -33,6 +33,7 @@ export const Stack: React.FC<StackProps> = ({
   },
   onExpandStart,
   onExpandEnd,
+  firstItemOnTop = false,
 }) => {
   const progress = useSharedValue(0);
 
@@ -90,6 +91,7 @@ export const Stack: React.FC<StackProps> = ({
             index={index}
             gap={gap}
             offset={offset}
+            firstItemOnTop={firstItemOnTop}
           >
             {child}
           </StackItem>
