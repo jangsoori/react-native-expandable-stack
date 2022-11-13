@@ -39,8 +39,6 @@ export default function App() {
           gap={10}
           offset={-70}
           expanded={isExpanded}
-          onExpandStart={() => { }}
-          onExpandEnd={() => { }}
         >
           <Item color="#9F2B68" />
           <Item color="#BF40BF" />
