@@ -41,6 +41,7 @@ export default function App() {
           expanded={isExpanded}
           onExpandStart={() => { }}
           onExpandEnd={() => { }}
+          firstItemOnTop
         >
           <Item color="#9F2B68" />
           <Item color="#BF40BF" />

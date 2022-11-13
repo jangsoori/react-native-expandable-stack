@@ -5,4 +5,5 @@ export interface StackItemProps {
   offset: number;
   index: number;
   progress: Animated.SharedValue<number>;
+  firstItemOnTop: boolean;
 }
