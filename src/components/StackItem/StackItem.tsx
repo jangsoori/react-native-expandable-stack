@@ -11,9 +11,11 @@ export const StackItem: React.FC<StackItemProps> = ({
   gap,
   offset,
   progress,
+  firstItemOnTop,
 }) => {
   const rStyle = useAnimatedStyle(() => {
     return {
+      zIndex: firstItemOnTop ? -index : index,
       transform: [
         {
           translateY: interpolate(

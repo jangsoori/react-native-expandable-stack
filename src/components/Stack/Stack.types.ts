@@ -20,4 +20,5 @@ export interface StackProps {
   animation?: SpringAnimation | TimingAnimation;
   onExpandStart?: () => void;
   onExpandEnd?: () => void;
+  firstItemOnTop?: boolean;
 }
