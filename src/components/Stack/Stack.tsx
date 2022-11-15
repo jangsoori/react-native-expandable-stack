@@ -34,6 +34,7 @@ export const Stack: React.FC<StackProps> = ({
   onExpandStart,
   onExpandEnd,
   firstItemOnTop = false,
+  animatedProgress,
 }) => {
   const progress = useSharedValue(0);
 
@@ -50,6 +51,18 @@ export const Stack: React.FC<StackProps> = ({
     }
     return withSpring;
   }, [animation.type]);
+
+  const childrenCount = Children.count(children);
+
+  const rStyle = useAnimatedStyle(() => {
+    return {
+      marginBottom: interpolate(
+        progress.value,
+        [0, 1],
+        [offset * (childrenCount - 1), gap * (childrenCount - 1)]
+      ),
+    };
+  });
 
   useAnimatedReaction(
     () => expanded,
@@ -70,18 +83,14 @@ export const Stack: React.FC<StackProps> = ({
     [expanded]
   );
 
-  const childrenCount = Children.count(children);
-
-  const rStyle = useAnimatedStyle(() => {
-    return {
-      marginBottom: interpolate(
-        progress.value,
-        [0, 1],
-        [offset * (childrenCount - 1), gap * (childrenCount - 1)]
-      ),
-    };
-  });
-
+  useAnimatedReaction(
+    () => progress.value,
+    (_progress) => {
+      if (animatedProgress) {
+        animatedProgress.value = _progress;
+      }
+    }
+  );
   return (
     <Animated.View style={rStyle}>
       {Children.map(children, (child, index) => {

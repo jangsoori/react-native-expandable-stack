@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 import { Stack } from 'react-native-expandable-stack';
+import { useAnimatedReaction, useSharedValue } from 'react-native-reanimated';
 
 const Item: React.FC<{ color: string }> = ({ color }) => {
   return (
@@ -22,6 +23,16 @@ const Item: React.FC<{ color: string }> = ({ color }) => {
 
 export default function App() {
   const [isExpanded, setIsExpanded] = useState(false);
+  const animatedProgress = useSharedValue(0);
+
+  useAnimatedReaction(
+    () => {
+      return animatedProgress;
+    },
+    (_animatedProgress) => {
+      console.log(_animatedProgress.value);
+    }
+  );
 
   return (
     <View style={styles.container}>
@@ -40,6 +51,7 @@ export default function App() {
           offset={-70}
           expanded={isExpanded}
           firstItemOnTop
+          animatedProgress={animatedProgress}
         >
           <Item color="#9F2B68" />
           <Item color="#BF40BF" />

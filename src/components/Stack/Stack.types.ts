@@ -1,3 +1,4 @@
+import type Animated from 'react-native-reanimated';
 import type {
   WithSpringConfig,
   WithTimingConfig,
@@ -21,4 +22,5 @@ export interface StackProps {
   onExpandStart?: () => void;
   onExpandEnd?: () => void;
   firstItemOnTop?: boolean;
+  animatedProgress?: Animated.SharedValue<number>;
 }
